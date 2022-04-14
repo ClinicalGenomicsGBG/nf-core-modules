@@ -1,0 +1,70 @@
+name: "sentieon dnascope"
+description: "DNAscope Germline variant calling with a machine learning model"
+keywords:
+  - varinat calling
+  - machine learning
+tools:
+  - "sentieon":
+      description: "Accelerated performance bioinformatics tools for mapping and variant calling"
+      homepage: "https://www.sentieon.com/"
+      documentation: "https://support.sentieon.com/appnotes/dnascope_ml/"
+      tool_dev_url: "https://github.com/Sentieon/sentieon-dnascope-ml"
+      doi: "10.1101/115717"
+      licence: "Commercial (requires license for use; redistribution allowed)"
+
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test' ]
+  - bam:
+      type: file
+      description: BAM file
+      pattern: "*.{bam}"
+  - bai:
+      type: file
+      description: BAM file index
+      pattern: "*.{bai}"
+  - reference:
+      type: file
+      description: reference file
+      pattern: "*.{fasta,fasta.gz,fa,fa.gz}"
+  - reference_index:
+      type: file
+      description: reference file index
+      pattern: "*.{fai}"
+  - dbsnp:
+      type: file
+      description: dbSNP file
+      pattern: "*.{vcf.gz}"
+  - dbsnp_index:
+      type: file
+      description: dbSNP file index
+      pattern: "*.{vcf.gz.tbi}"
+  - ml_model:
+      type: file
+      description: DNAscope model file. In the DNAscope command the model will be used to determine the settings used in variant calling.
+      pattern: "*.{model}"
+  - pcrfree:
+      type: val
+      description: boolean to indicate whether the sample is PCR Free or not. Set to true for PCR Free samples.
+      pattern: "true/false"
+
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test']
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+  - tmp_vcf:
+      type: file
+      description: intermediate variant calling output of DNAscope. This is a temporary file.
+      pattern: "*.{vcf}"
+
+authors:
+  - "@sima-r"
