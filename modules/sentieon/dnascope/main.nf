@@ -10,16 +10,16 @@ process SENTIEON_DNASCOPE {
 
     input:
     tuple val(meta), path(bam), path(bai)
-    path fasta
-    path fai
+    path reference
+    path reference_index
     path dbsnp
     path dbsnp_index
     path ml_model
     val pcrfree
 
     output:
-    tuple val(meta), path("*.vcf"), path("*.vcf.idx"), emit: tmp_vcf
-    path "versions.yml"                              , emit: versions
+    tuple val(meta), path("*_dnascope_tmp.vcf") , emit: tmp_vcf
+    path "versions.yml"            , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -56,6 +56,7 @@ process SENTIEON_DNASCOPE {
     """
     touch ${prefix}.vcf
     touch ${prefix}.vcf.idx
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         sentieon: \$(echo \$(sentieon driver --version 2>&1) | sed 's/^.*sentieon //; s/Using.*\$//' )

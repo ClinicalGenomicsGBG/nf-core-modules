@@ -1,0 +1,23 @@
+- name: sentieon dnascope test_sentieon_dnascope
+  command: nextflow run ./tests/modules/sentieon/dnascope -entry test_sentieon_dnascope -c ./tests/config/nextflow.config -c ./tests/modules/sentieon/dnascope/nextflow.config -c ./medair.config
+  tags:
+    - sentieon/dnascope
+    - sentieon
+  files:
+    - path: output/sentieon/test.vcf
+      contains: '[fileformat=VCFv4.2]'
+    - path: output/sentieon/test.vcf.idx
+      contains: '[fileformat=VCFv4.2]'
+    - path: output/sentieon/versions.yml
+      md5sum: 07097e67a20fd40bdcf46325065e93a4
+
+- name: sentieon dnascope test_sentieon_dnascope_modelapply
+  command: nextflow run ./tests/modules/sentieon/dnascope -entry test_sentieon_dnascope_modelapply -c ./tests/config/nextflow.config -c ./tests/modules/sentieon/dnascope/nextflow.config -c ./medair.config
+  tags:
+    - sentieon/dnascope
+    - sentieon
+  files:
+    - path: output/sentieon/test.vcf
+      contains: '[fileformat=VCFv4.2]'
+    - path: output/sentieon/versions.yml
+      md5sum: 07097e67a20fd40bdcf46325065e93a4
