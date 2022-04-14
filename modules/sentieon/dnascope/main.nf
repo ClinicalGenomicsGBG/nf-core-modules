@@ -18,7 +18,7 @@ process SENTIEON_DNASCOPE {
     val pcrfree
 
     output:
-    tuple val(meta), path("*_dnascope_tmp.vcf") , emit: tmp_vcf
+    tuple val(meta), path("*.tmp.vcf") , emit: tmp_vcf
     path "versions.yml"            , emit: versions
 
     when:
@@ -35,15 +35,15 @@ process SENTIEON_DNASCOPE {
     """
     sentieon driver \\
         -t ${task.cpus} \\
-        -r ${fasta} \\
-        ${args2} \\
+        -r ${reference} \\
+        ${args} \\
         -i ${bam} \\
         --algo DNAscope \\
         ${dbSNP} \\
-        ${args} \\
+        ${args2} \\
         ${call_settings} \\
         ${ML_MDL} \\
-        ${prefix}_dnascope_tmp.vcf
+        ${prefix}.tmp.vcf
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
@@ -54,8 +54,7 @@ process SENTIEON_DNASCOPE {
     stub:
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    touch ${prefix}.vcf
-    touch ${prefix}.vcf.idx
+    touch ${prefix}.tmp.vcf
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
